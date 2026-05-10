@@ -1,11 +1,12 @@
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const listingService = require('./listingService');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import { generateAndStoreEmbeddings, performVectorSearch } from './listingService.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+import { PORT } from './env.js';
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -15,7 +16,7 @@ app.use(express.json());
 app.post('/api/listings/generate-embeddings', async (req, res) => {
     try {
         // Run in background to avoid timeout
-        listingService.generateAndStoreEmbeddings()
+        generateAndStoreEmbeddings()
             .catch(err => console.error('Background embedding generation error:', err));
         
         res.status(200).json({ message: 'Embeddings generation started in background' });
@@ -31,7 +32,7 @@ app.get('/api/listings/perform-vector-search', async (req, res) => {
     }
 
     try {
-        const results = await listingService.performVectorSearch(query);
+        const results = await performVectorSearch(query);
         res.status(200).json(results);
     } catch (error) {
         res.status(500).json({ error: error.message });

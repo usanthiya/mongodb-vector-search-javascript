@@ -1,14 +1,14 @@
-const { MongoClient } = require('mongodb');
-const geminiGateway = require('./geminiGateway');
-require('dotenv').config();
+import { MongoClient } from 'mongodb';
+import { getEmbedding } from './geminiGateway.js';
+import { MONGODB_URI, DATABASE_NAME } from './env.js';
 
-const client = new MongoClient(process.env.MONGODB_URI);
+const client = new MongoClient(MONGODB_URI);
 const BATCH_SIZE = 500;
 
-async function generateAndStoreEmbeddings() {
+export const generateAndStoreEmbeddings = async () => {
     try {
         await client.connect();
-        const database = client.db(process.env.DATABASE_NAME);
+        const database = client.db(DATABASE_NAME);
         const collection = database.collection('listingsAndReviews');
 
         let processedDocuments = 0;
@@ -26,7 +26,7 @@ async function generateAndStoreEmbeddings() {
                 const description = doc.description;
                 if (description) {
                     try {
-                        const embeddings = await geminiGateway.getEmbedding(description);
+                        const embeddings = await getEmbedding(description);
                         if (embeddings) {
                             bulkUpdates.push({
                                 updateOne: {
@@ -59,13 +59,13 @@ async function generateAndStoreEmbeddings() {
     }
 }
 
-async function performVectorSearch(query) {
+export const performVectorSearch = async (query) => {
     try {
         await client.connect();
-        const database = client.db(process.env.DATABASE_NAME);
+        const database = client.db(DATABASE_NAME);
         const collection = database.collection('listingsAndReviews');
 
-        const queryEmbeddings = await geminiGateway.getEmbedding(query);
+        const queryEmbeddings = await getEmbedding(query);
         const indexName = "vector_index";
         const numCandidates = 150;
         const limit = 10;
@@ -101,8 +101,3 @@ async function performVectorSearch(query) {
         throw error;
     }
 }
-
-module.exports = {
-    generateAndStoreEmbeddings,
-    performVectorSearch
-};

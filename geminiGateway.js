@@ -1,11 +1,11 @@
-const axios = require('axios');
-require('dotenv').config();
+import axios from 'axios';
+import { GEMINI_BASE_URL, GEMINI_API_KEY, GEMINI_MODEL} from './env.js';
 
-const getEmbedding = async (input) => {
-    const url = `${process.env.GEMINI_BASE_URL}?key=${process.env.GEMINI_API_KEY}`;
+export const getEmbedding = async (input) => {
+    const url = `${GEMINI_BASE_URL}?key=${GEMINI_API_KEY}`;
     
     const requestBody = {
-        model: process.env.GEMINI_MODEL,
+        model: GEMINI_MODEL,
         content: {
             parts: [{ text: input }]
         },
@@ -19,8 +19,4 @@ const getEmbedding = async (input) => {
         console.error('Error from Gemini AI:', error.response ? error.response.data : error.message);
         throw error;
     }
-};
-
-module.exports = {
-    getEmbedding
 };
