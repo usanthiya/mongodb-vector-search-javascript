@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import { generateAndStoreEmbeddings, performVectorSearch } from './listingService.js';
+import { generateAndStoreEmbeddings, performVectorSearch } from './services/listingService.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-import { PORT } from './env.js';
+import { PORT } from './config/env.js';
 
 app.use(cors());
 app.use(morgan('dev'));

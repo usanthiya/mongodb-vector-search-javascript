@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GEMINI_BASE_URL, GEMINI_API_KEY, GEMINI_MODEL} from './env.js';
+import { GEMINI_BASE_URL, GEMINI_API_KEY, GEMINI_MODEL} from '../config/env.js';
 
 export const getEmbedding = async (input) => {
     const url = `${GEMINI_BASE_URL}?key=${GEMINI_API_KEY}`;

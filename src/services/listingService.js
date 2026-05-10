@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
-import { getEmbedding } from './geminiGateway.js';
-import { MONGODB_URI, DATABASE_NAME } from './env.js';
+import { getEmbedding } from '../gateways/geminiGateway.js';
+import { MONGODB_URI, DATABASE_NAME } from '../config/env.js';
 
 const client = new MongoClient(MONGODB_URI);
 const BATCH_SIZE = 500;
