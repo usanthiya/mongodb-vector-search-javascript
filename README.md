@@ -1,15 +1,16 @@
-# MongoDB Vector Search - Node.js Version
+# MongoDB Vector Search - TypeScript Version
 
-This project is a JavaScript/Node.js conversion of the MongoDB Vector Search application originally built with Java/Quarkus.
+This project is a TypeScript conversion of the MongoDB Vector Search application.
 
 ## Features
-- **Generate Embeddings**: Fetches embeddings from Google's Gemini AI and stores them in MongoDB.
+- **Generate Embeddings**: Fetches embeddings from Voyage AI and stores them in MongoDB.
 - **Vector Search**: Performs semantic search using MongoDB's `$vectorSearch` operator.
+- **TypeScript**: Built with TypeScript for type safety and better developer experience.
 
 ## Prerequisites
 - Node.js installed
-- MongoDB Atlas cluster with a vector search index named `vector_index` on the `listingsAndReviews` collection in the `sample_airbnb` database.
-- Gemini AI API Key
+- MongoDB Atlas cluster with a vector search index named `voyage_vector_index` on the `listingsAndReviews` collection.
+- Voyage AI API Key
 
 ## Setup
 1. Install dependencies:
@@ -20,13 +21,13 @@ This project is a JavaScript/Node.js conversion of the MongoDB Vector Search app
    - `PORT`: Server port (default: 3000)
    - `MONGODB_URI`: Your MongoDB connection string
    - `DATABASE_NAME`: `sample_airbnb`
-   - `GEMINI_API_KEY`: Your Google Gemini API key
-   - `GEMINI_MODEL`: `gemini-embedding-001`
-   - `GEMINI_BASE_URL`: `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent`
+   - `VOYAGE_API_KEY`: Your Voyage AI API key
+   - `VOYAGE_MODEL`: `voyage-3`
+   - `VOYAGE_BASE_URL`: `https://api.voyageai.com/v1/embeddings`
 
 ## Running the App
 ```bash
-node index.js
+npm run dev
 ```
 
 ## API Endpoints
