@@ -20,3 +20,32 @@ export const getEmbedding = async (input: string): Promise<number[]> => {
         throw error;
     }
 };
+
+export const generateSummaryAnalysis = async (query: string, candidateContext: string): Promise<string> => {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+    
+    const prompt = `You are an expert HR assistant. Given a job search query and a candidate's information, explain briefly (2-3 sentences) why this candidate is a good match for the query.
+    
+Query: ${query}
+
+Candidate Info:
+${candidateContext}`;
+
+    const requestBody = {
+        contents: [{
+            parts: [{ text: prompt }]
+        }]
+    };
+
+    try {
+        const response = await axios.post(url, requestBody, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data.candidates[0].content.parts[0].text;
+    } catch (error: any) {
+        console.error('Error generating summary from Gemini AI:', error.response ? error.response.data : error.message);
+        return "Could not generate summary analysis at this time.";
+    }
+};
